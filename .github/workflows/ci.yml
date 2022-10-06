@@ -1,0 +1,12 @@
+name: CI
+
+on:
+  push:
+
+  pull_request:
+
+  workflow_dispatch:
+
+jobs:
+  build-release:
+    uses: ./.github/workflows/build-releases.yml

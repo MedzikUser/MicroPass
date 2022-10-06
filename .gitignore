@@ -1,0 +1,20 @@
+# Binaries output
+/target
+
+# Docker database data
+/db-data
+
+# Logs
+*.log
+
+# TLS certificates
+server.key
+server.pem
+
+# JWT private/public keys
+jwt.key
+jwt.pub
+
+# IDE configuration
+.vscode
+.idea

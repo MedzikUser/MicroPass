@@ -1,0 +1,14 @@
+[crypto]
+salt = 64 # lenght of pseudo-random salt byte slice
+iterations = 120000 # number of password iterations (OWASP recommended to use 120000 for PBKDF2-HMAC-SHA512)
+
+[jwt]
+publicKey = "jwt.pub"
+privateKey = "jwt.key"
+expires = 24
+
+[api]
+address = ":8080"
+tls = false # enable TLS server
+certFile = "server.pem" # TLS certificate file
+keyFile = "server.key" # TLS key file

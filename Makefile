@@ -1,0 +1,14 @@
+GO := go
+
+all: build
+
+build:
+	$(GO) build  \
+		-o target/bytepass-$$($(GO) env GOOS)-$$($(GO) env GOARCH) \
+		.
+
+release:
+	GOOS=linux GOARCH=amd64 make build
+	GOOS=linux GOARCH=arm64 make build
+	GOOS=freebsd GOARCH=amd64 make build
+	GOOS=freebsd GOARCH=arm64 make build

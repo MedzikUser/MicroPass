@@ -1,0 +1,26 @@
+name: Build release binaries
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Go
+        uses: actions/setup-go@v3
+
+      - name: Build
+        run: make release
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: releases
+          path: ./target/*
