@@ -37,6 +37,8 @@ type apiConfig struct {
 var Config config
 
 func init() {
+	log.Debug("Initializing config")
+
 	ParseConfig("config.toml")
 
 	pub, err := ioutil.ReadFile(Config.Jwt.PublicKey)
@@ -51,21 +53,19 @@ func init() {
 
 	Config.Jwt.PublicKey = string(pub)
 	Config.Jwt.PrivateKey = string(private)
-
-	println("Initializing config")
 }
 
 func ParseConfig(path string) {
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
-		log.Fatal("Could not open config file: ", err)
+		log.Fatal("Could not open config file: %v", err)
 	}
 
 	config := &config{}
 
 	err = toml.Unmarshal(data, config)
 	if err != nil {
-		log.Fatal("Could not parse config file: ", err)
+		log.Fatal("Could not parse config file: %v", err)
 	}
 
 	Config = *config
