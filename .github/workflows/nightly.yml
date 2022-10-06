@@ -39,4 +39,4 @@ jobs:
           tag_name: "nightly"
           draft: false
           fail_on_unmatched_files: true
-          files: ./release/*
+          files: ./releases/*
