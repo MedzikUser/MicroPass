@@ -1,7 +1,5 @@
 GO := go
 
-all: build
-
 build:
 	$(GO) build  \
 		-o target/bytepass-$$($(GO) env GOOS)-$$($(GO) env GOARCH) \
@@ -12,3 +10,7 @@ release:
 	GOOS=linux GOARCH=arm64 make build
 	GOOS=freebsd GOARCH=amd64 make build
 	GOOS=freebsd GOARCH=arm64 make build
+
+clean:
+	$(GO) clean
+	rm -rf target

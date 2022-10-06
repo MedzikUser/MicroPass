@@ -10,6 +10,8 @@ import (
 
 func login(c *gin.Context) {
 	var post loginPost
+
+	// parse request data
 	err := c.BindJSON(&post)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -44,6 +46,7 @@ func login(c *gin.Context) {
 
 	refreshToken := "none"
 
+	// set response headers
 	c.Writer.Header().Set("Access-Token", accessToken)
 	c.Writer.Header().Set("Refresh-Token", refreshToken)
 

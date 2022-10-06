@@ -16,16 +16,8 @@ var (
 	postgres_db       = os.Getenv("POSTGRES_DB")
 )
 
-// // Parse configuration file before init modules,
-// // configuration file is required by the `database` module.
-// func init() {
-// 	config.ParseConfig("config.toml")
-// }
-
 func main() {
 	database.Connect(postgres_host, postgres_user, postgres_password, postgres_db)
 
-	//database.NewUser("medzik@duck.com", "Super#secret#passphrase")
-
-	api.Start()
+	api.Run()
 }

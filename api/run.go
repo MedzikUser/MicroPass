@@ -10,7 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Start() {
+func Run() {
 	gin.SetMode(gin.ReleaseMode)
 
 	r := gin.Default()

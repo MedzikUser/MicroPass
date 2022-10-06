@@ -7,6 +7,7 @@ import (
 	"github.com/bytepass/server/crypto"
 )
 
+// User table in database.
 type User struct {
 	Model
 	Name               string
@@ -19,6 +20,7 @@ type User struct {
 	TwoFactorRecover   *string
 }
 
+// Create a new user in the database.
 func NewUser(email string, masterPassword string, masterPasswordHint string) (*User, error) {
 	// generate salt
 	masterPasswordSalt, err := crypto.GenerateSalt()
@@ -47,6 +49,7 @@ func NewUser(email string, masterPassword string, masterPasswordHint string) (*U
 	return &user, tx.Error
 }
 
+// Take user from the database.
 func TakeUser(email string, masterPassword string) (*User, error) {
 	var user User
 
@@ -65,10 +68,11 @@ func TakeUser(email string, masterPassword string) (*User, error) {
 	return &user, nil
 }
 
+// Take user from the database by UUID.
 func TakeUserID(id string) (*User, error) {
 	var user User
 
-	// find user in database using uuid
+	// find user in database by UUID
 	tx := DB.Where(map[string]interface{}{"uuid": id}).First(&user)
 	if tx.Error != nil {
 		return nil, tx.Error

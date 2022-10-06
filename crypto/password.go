@@ -37,7 +37,7 @@ func HashPassword(password string, salt []byte) string {
 	return hex
 }
 
-// Check if two passwords match
+// Check if two passwords match.
 //
 // Example:
 //	// generate random salt

@@ -9,6 +9,8 @@ import (
 
 func register(c *gin.Context) {
 	var post registerPost
+
+	// parse request data
 	err := c.BindJSON(&post)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
