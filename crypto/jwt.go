@@ -35,21 +35,28 @@ func init() {
 }
 
 // Generate and sign a JWT token.
-func GenerateJWT(userId string) (string, error) {
-	// create token
-	token := jwt.NewWithClaims(jwtAlgorithm, jwt.MapClaims{
-		"user": userId,
-		"exp":  time.Now().Add(time.Hour * config.Config.Jwt.Expires).Unix(),
-	})
+func GenerateJwt(userId string) (string, error) {
+	return generateJwt(userId, "access")
+}
 
-	// sign token
-	tokenString, err := token.SignedString(privateKey)
-
-	return tokenString, err
+// Generate and sign a JWT token.
+func GenerateRefreshJwt(userId string) (string, error) {
+	return generateJwt(userId, "refresh")
 }
 
 // Validate JWT token.
-func ValidateJWT(token string) (*string, error) {
+func ValidateJwt(token string) (*string, error) {
+	return validateJwt(token, "access")
+}
+
+// Validate JWT token.
+func ValidateRefreshJwt(token string) (*string, error) {
+	return validateJwt(token, "refresh")
+}
+
+// --> Local function <--
+
+func validateJwt(token string, tokenType string) (*string, error) {
 	claims := jwt.MapClaims{}
 
 	// parse token and get claims
@@ -62,14 +69,36 @@ func ValidateJWT(token string) (*string, error) {
 		return publicKey, nil
 	})
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("invalid token")
 	}
 
 	// get user UUID from token
-	userId, exists := claims["user"].(string)
+	userId, exists := claims["sub"].(string)
 	if !exists {
-		return nil, fmt.Errorf("token doesn't contain a user ID")
+		return nil, fmt.Errorf("token doesn't contain a subject")
+	}
+
+	// get user UUID from token
+	tokenTypeClaim, exists := claims["typ"].(string)
+	if !exists && tokenTypeClaim != tokenType {
+		return nil, fmt.Errorf("token isn't an %s token", tokenType)
 	}
 
 	return &userId, nil
+}
+
+func generateJwt(userId string, tokenType string) (string, error) {
+	// create token
+	token := jwt.NewWithClaims(jwtAlgorithm, jwt.MapClaims{
+		"iss": config.Config.Jwt.Issuer,
+		"iat": time.Now().Unix(),
+		"exp": time.Now().Add(time.Hour * config.Config.Jwt.ExpiresRefreshToken).Unix(),
+		"sub": userId,
+		"typ": tokenType,
+	})
+
+	// sign token
+	tokenString, err := token.SignedString(privateKey)
+
+	return tokenString, err
 }

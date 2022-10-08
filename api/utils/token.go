@@ -31,7 +31,7 @@ func GetToken(c *gin.Context) (*Token, error) {
 	}
 
 	// validate token
-	userId, err := crypto.ValidateJWT(token)
+	userId, err := crypto.ValidateJwt(token)
 	if err != nil {
 		return nil, err
 	}

@@ -34,7 +34,7 @@ func login(c *gin.Context) {
 	}
 
 	// generate access token
-	accessToken, err := crypto.GenerateJWT(user.Id)
+	accessToken, err := crypto.GenerateJwt(user.Id)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"success": false,
@@ -44,7 +44,16 @@ func login(c *gin.Context) {
 		return
 	}
 
-	refreshToken := "none"
+	// generate refresh token
+	refreshToken, err := crypto.GenerateRefreshJwt(user.Id)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": "Failed to generate refresh token",
+		})
+
+		return
+	}
 
 	// set response headers
 	c.Writer.Header().Set("Access-Token", accessToken)

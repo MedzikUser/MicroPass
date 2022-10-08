@@ -22,12 +22,16 @@ type cryptoConfig struct {
 }
 
 type jwtConfig struct {
+	// The identity of the party who issued the token.
+	Issuer string
 	// RSA Public Key
 	PublicKey string
 	// RSA Private Key
 	PrivateKey string
-	// Token expiration time in hours.
-	Expires time.Duration
+	// Access token expiration time in minutes.
+	ExpiresAccessToken time.Duration
+	// Access token expiration time in minutes.
+	ExpiresRefreshToken time.Duration
 }
 
 type apiConfig struct {
