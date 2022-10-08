@@ -3,6 +3,8 @@ package log
 import (
 	"fmt"
 	"log"
+
+	"github.com/bytepass/server/config"
 )
 
 // Colors
@@ -26,5 +28,7 @@ func Fatal(format string, v ...any) {
 }
 
 func Debug(format string, v ...any) {
-	log.Printf(fmt.Sprintf("%s[DEBUG]%s %s", Gray, Reset, format), v...)
+	if config.DevelopmentBuild {
+		log.Printf(fmt.Sprintf("%s[DEBUG]%s %s", Gray, Reset, format), v...)
+	}
 }

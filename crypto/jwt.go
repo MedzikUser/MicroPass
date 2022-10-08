@@ -54,9 +54,11 @@ func ValidateJWT(token string) (*string, error) {
 
 	// parse token and get claims
 	_, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
+		// if token isn't an rsa token
 		if _, ok := token.Method.(*jwt.SigningMethodRSA); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
+
 		return publicKey, nil
 	})
 	if err != nil {
@@ -64,7 +66,10 @@ func ValidateJWT(token string) (*string, error) {
 	}
 
 	// get user UUID from token
-	userId := claims["user"].(string)
+	userId, exists := claims["user"].(string)
+	if !exists {
+		return nil, fmt.Errorf("token doesn't contain a user ID")
+	}
 
 	return &userId, nil
 }

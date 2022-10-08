@@ -37,16 +37,7 @@ func HashPassword(password string, salt []byte) string {
 	return hex
 }
 
-// Check if two passwords match.
-//
-// Example:
-//	// generate random salt
-//	salt := generateSalt()
-//
-//	// hash password (e.g. password returned from database)
-//	hashedPassword := hashPassword("Super#secret#passphrase", salt)
-//
-//	PasswordMatch(hashedPassword, "Super#secret#passphrase", salt)
+// Check if the two passwords match.
 func PasswordMatch(hashedPassword string, currentPassword string, salt []byte) bool {
 	currentPassword = HashPassword(currentPassword, salt)
 

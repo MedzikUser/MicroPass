@@ -3,10 +3,12 @@ package main
 import (
 	"os"
 
+	// auto load functions
+	_ "github.com/bytepass/server/config/autoload"
+	_ "github.com/joho/godotenv/autoload"
+
 	"github.com/bytepass/server/api"
 	"github.com/bytepass/server/database"
-
-	_ "github.com/joho/godotenv/autoload"
 )
 
 var (
@@ -19,5 +21,6 @@ var (
 func main() {
 	database.Connect(postgres_host, postgres_user, postgres_password, postgres_db)
 
+	// run API server
 	api.Run()
 }

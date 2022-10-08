@@ -7,7 +7,7 @@ import (
 )
 
 type Model struct {
-	Uuid      string    `gorm:"size:40,primaryKey"`
+	Id        string    `gorm:"size:40,primaryKey"`
 	CreatedAt time.Time `gorm:"autoCreateTime"`
 	UpdatedAt time.Time `gorm:"autoUpdateTime"`
 }
@@ -15,5 +15,5 @@ type Model struct {
 func defaultModel() Model {
 	uuid := uuid.New()
 
-	return Model{Uuid: uuid.String()}
+	return Model{Id: uuid.String()}
 }

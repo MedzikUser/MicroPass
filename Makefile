@@ -3,6 +3,7 @@ GO := go
 build:
 	$(GO) build  \
 		-o target/bytepass-$$($(GO) env GOOS)-$$($(GO) env GOARCH) \
+		-ldflags '-X github.com/bytepass/server/config.BuildType=production' \
 		.
 
 release:

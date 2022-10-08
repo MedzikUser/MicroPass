@@ -34,7 +34,7 @@ func login(c *gin.Context) {
 	}
 
 	// generate access token
-	accessToken, err := crypto.GenerateJWT(user.Uuid)
+	accessToken, err := crypto.GenerateJWT(user.Id)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"success": false,
