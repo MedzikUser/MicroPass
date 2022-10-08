@@ -6,6 +6,7 @@ import (
 
 	"github.com/bytepass/server/api/utils"
 	"github.com/bytepass/server/database"
+	"github.com/bytepass/server/log"
 	"github.com/gin-gonic/gin"
 )
 
@@ -27,6 +28,8 @@ func whoami(c *gin.Context) {
 			"success": false,
 			"message": "User not found",
 		})
+
+		log.Error("Error getting user from database: %v", err)
 
 		return
 	}

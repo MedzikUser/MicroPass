@@ -71,9 +71,10 @@ func TakeUser(email string, masterPassword string) (*User, error) {
 // Take user from the database by UUID.
 func TakeUserID(id string) (*User, error) {
 	var user User
+	user.Id = id
 
 	// find user in database by UUID
-	tx := DB.Where(map[string]interface{}{"uuid": id}).First(&user)
+	tx := DB.Model(&user).First(&user)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}

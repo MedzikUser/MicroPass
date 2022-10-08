@@ -50,7 +50,7 @@ func GenerateJWT(userId string) (string, error) {
 
 // Validate JWT token.
 func ValidateJWT(token string) (*string, error) {
-	var claims jwt.MapClaims
+	claims := jwt.MapClaims{}
 
 	// parse token and get claims
 	_, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
