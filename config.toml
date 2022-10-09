@@ -10,7 +10,11 @@ expiresAccessToken = 10 # Access token expiration time in minutes.
 expiresRefreshToken = 60 # Refresh token expiration time in minutes.
 
 [api]
+domain = "http://localhost:8080" # The domain is used for example in email verification
 address = ":8080"
 tls = false # enable TLS server
 certFile = "server.pem" # TLS certificate file
 keyFile = "server.key" # TLS key file
+
+[email]
+enable = true

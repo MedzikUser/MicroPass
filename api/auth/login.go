@@ -2,6 +2,7 @@ package auth
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/bytepass/server/crypto"
 	"github.com/bytepass/server/database"
@@ -10,6 +11,8 @@ import (
 
 func login(c *gin.Context) {
 	var post loginPost
+
+	post.Email = strings.ToLower(post.Email)
 
 	// parse request data
 	err := c.BindJSON(&post)
@@ -28,6 +31,15 @@ func login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"success": false,
 			"message": "User not found",
+		})
+
+		return
+	}
+
+	if !user.EmailVerified {
+		c.JSON(http.StatusOK, gin.H{
+			"success": false,
+			"message": "User email address is not verified",
 		})
 
 		return

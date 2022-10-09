@@ -12,6 +12,7 @@ type config struct {
 	Crypto cryptoConfig
 	Jwt    jwtConfig
 	Api    apiConfig
+	Email  emailConfig
 }
 
 type cryptoConfig struct {
@@ -35,10 +36,15 @@ type jwtConfig struct {
 }
 
 type apiConfig struct {
+	Domain   string
 	Address  string
 	Tls      bool
 	CertFile string
 	KeyFile  string
+}
+
+type emailConfig struct {
+	Enabled bool
 }
 
 var Config config

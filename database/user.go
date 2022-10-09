@@ -81,3 +81,13 @@ func TakeUserID(id string) (*User, error) {
 
 	return &user, nil
 }
+
+// Update user in database by UUID.
+func UpdateUser(id string, toUpdate User) error {
+	var user User
+	user.Id = id
+
+	tx := DB.Model(&user).First(&user).Updates(toUpdate)
+
+	return tx.Error
+}

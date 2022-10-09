@@ -7,6 +7,9 @@
 # Logs
 *.log
 
+# Enviroment variavles
+.env
+
 # TLS certificates
 server.key
 server.pem

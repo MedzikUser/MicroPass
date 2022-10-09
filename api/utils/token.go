@@ -5,12 +5,14 @@ import (
 	"strings"
 
 	"github.com/bytepass/server/crypto"
+	"github.com/bytepass/server/database"
 	"github.com/gin-gonic/gin"
 )
 
 type Token struct {
 	Token  string
 	UserId string
+	User   database.User
 }
 
 // Get token from http request.
@@ -36,5 +38,16 @@ func GetToken(c *gin.Context) (*Token, error) {
 		return nil, err
 	}
 
-	return &Token{token, *userId}, nil
+	// take user from database
+	user, err := database.TakeUserID(*userId)
+	if err != nil {
+		return nil, err
+	}
+
+	// check if user have verified email
+	if !user.EmailVerified {
+		return nil, fmt.Errorf("user doesn't have a verified email address")
+	}
+
+	return &Token{token, *userId, *user}, nil
 }

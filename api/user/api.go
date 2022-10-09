@@ -7,5 +7,6 @@ import (
 func Apply(r *gin.Engine) {
 	user := r.Group("/api/user")
 
+	user.GET("/verifyEmail", verifyEmail)
 	user.GET("/whoami", whoami)
 }
