@@ -9,7 +9,6 @@ func Apply(r *gin.Engine) {
 
 	// 1. TODO: add rate limit for disable brute force login.
 	// 2. TODO: implement two factor authentication.
-	// 3. TODO: implement email verification.
 
 	auth.POST("/login", login)
 	auth.POST("/register", register)

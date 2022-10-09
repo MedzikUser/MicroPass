@@ -7,7 +7,7 @@
 # Logs
 *.log
 
-# Enviroment variavles
+# Secrets
 .env
 
 # TLS certificates
