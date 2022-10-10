@@ -22,7 +22,10 @@ func whoami(c *gin.Context) {
 	}
 
 	// take user from database
-	user, err := database.TakeUserID(token.UserId)
+	var user database.User
+	user.Id = token.UserId
+
+	user, err = user.Get()
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"success": false,

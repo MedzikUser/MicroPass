@@ -21,7 +21,8 @@ func Connect(host string, user string, password string, dbname string) {
 		log.Fatal("Failed connect to the database: %v", err)
 	}
 
-	// --> Auto migrations <--
+	/* --> Auto migrations <-- */
+
 	// user model
 	err = db.AutoMigrate(&User{})
 	if err != nil {
@@ -33,7 +34,8 @@ func Connect(host string, user string, password string, dbname string) {
 	if err != nil {
 		log.Fatal("Failed to run auto migration for cipher model: %v", err)
 	}
-	// --> End auto migrations <--
+
+	/* --> End auto migrations <-- */
 
 	log.Info("Connected to database!")
 

@@ -25,8 +25,10 @@ func login(c *gin.Context) {
 		return
 	}
 
+	var user = database.User{Email: post.Email, MasterPassword: post.MasterPassword}
+
 	// take user from database
-	user, err := database.TakeUser(post.Email, post.MasterPassword)
+	user, err = user.Get()
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"success": false,

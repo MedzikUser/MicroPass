@@ -39,7 +39,10 @@ func GetToken(c *gin.Context) (*Token, error) {
 	}
 
 	// take user from database
-	user, err := database.TakeUserID(*userId)
+	var user database.User
+	user.Id = *userId
+
+	user, err = user.Get()
 	if err != nil {
 		return nil, err
 	}
@@ -49,5 +52,5 @@ func GetToken(c *gin.Context) (*Token, error) {
 		return nil, fmt.Errorf("user doesn't have a verified email address")
 	}
 
-	return &Token{token, *userId, *user}, nil
+	return &Token{token, *userId, user}, nil
 }

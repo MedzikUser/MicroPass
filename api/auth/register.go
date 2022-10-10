@@ -25,8 +25,10 @@ func register(c *gin.Context) {
 		return
 	}
 
+	var user = database.User{Email: post.Email, MasterPassword: post.MasterPassword, MasterPasswordHint: &post.MasterPasswordHint}
+
 	// inset user into database
-	user, err := database.NewUser(post.Email, post.MasterPassword, post.MasterPasswordHint)
+	user, err = user.Insert()
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"success": false,

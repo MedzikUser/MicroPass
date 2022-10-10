@@ -20,74 +20,66 @@ type User struct {
 	TwoFactorRecover   *string
 }
 
-// Create a new user in the database.
-func NewUser(email string, masterPassword string, masterPasswordHint string) (*User, error) {
+// Insert user into the database.
+func (user User) Insert() (User, error) {
 	// generate salt
-	masterPasswordSalt, err := crypto.GenerateSalt()
+	salt, err := crypto.GenerateSalt()
 	if err != nil {
-		return nil, err
+		return user, fmt.Errorf("generate salt error: %v", err)
 	}
+	// set user salt to the generated salt
+	user.MasterPasswordSalt = salt
 
-	// hash master password with salt
-	hashedMasterPassword := crypto.HashPassword(masterPassword, masterPasswordSalt)
+	// compute hash from master password with salt
+	user.MasterPassword = crypto.HashPassword(user.MasterPassword, user.MasterPasswordSalt)
 
 	// get username from email
-	name := strings.Split(email, "@")[0]
+	user.Name = strings.Split(user.Email, "@")[0]
 
-	user := User{
-		Model:              defaultModel(),
-		Name:               name,
-		Email:              email,
-		MasterPassword:     hashedMasterPassword,
-		MasterPasswordSalt: masterPasswordSalt,
-		MasterPasswordHint: &masterPasswordHint,
-	}
+	// add default entries to the user
+	user.Model = defaultModel()
 
-	// create user in database
+	// create user in the database
 	tx := DB.Create(&user)
-
-	return &user, tx.Error
-}
-
-// Take user from the database.
-func TakeUser(email string, masterPassword string) (*User, error) {
-	var user User
-
-	// find user in database
-	tx := DB.Where(map[string]interface{}{"email": email}).First(&user)
 	if tx.Error != nil {
-		return nil, tx.Error
+		return user, fmt.Errorf("insert user to database error: %v", tx.Error)
 	}
 
-	// match the master password with the master password from database
-	match := crypto.PasswordMatch(user.MasterPassword, masterPassword, user.MasterPasswordSalt)
-	if !match {
-		return nil, fmt.Errorf("password mismatch")
-	}
-
-	return &user, nil
+	return user, nil
 }
 
-// Take user from the database by UUID.
-func TakeUserID(id string) (*User, error) {
-	var user User
-	user.Id = id
+// Get user from the database.
+func (user User) Get() (User, error) {
+	providedMasterPassword := user.MasterPassword
+	user.MasterPassword = ""
 
-	// find user in database by UUID
-	tx := DB.Model(&user).First(&user)
+	// get user from database
+	tx := DB.Model(&user).Where(&user).First(&user)
 	if tx.Error != nil {
-		return nil, tx.Error
+		return user, tx.Error
 	}
 
-	return &user, nil
+	// validate password if provided
+	if providedMasterPassword != "" {
+		// match the master password with the master password saved in the database
+		ok := crypto.PasswordMatch(user.MasterPassword, providedMasterPassword, user.MasterPasswordSalt)
+		if !ok {
+			return user, fmt.Errorf("password mismatch")
+		}
+	}
+
+	return user, nil
 }
 
-// Update user in database by UUID.
-func UpdateUser(id string, toUpdate User) error {
-	var user User
-	user.Id = id
+// Update user data in the database.
+func (user User) Update(id string) error {
+	var findUser User
+	findUser.Id = id
 
-	tx := DB.Model(&user).First(&user).Updates(toUpdate)
+	tx := DB.Model(&user).Where(&findUser).Updates(&user)
+	if tx.Error != nil {
+		return fmt.Errorf("updating user in database error: %v", tx.Error)
+	}
 
-	return tx.Error
+	return nil
 }

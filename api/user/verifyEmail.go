@@ -29,7 +29,10 @@ func verifyEmail(c *gin.Context) {
 		return
 	}
 
-	user, err := database.TakeUserID(*userId)
+	var user database.User
+	user.Id = *userId
+
+	user, err = user.Get()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"success": false,
@@ -48,7 +51,9 @@ func verifyEmail(c *gin.Context) {
 		return
 	}
 
-	err = database.UpdateUser(*userId, database.User{EmailVerified: true})
+	updateUser := database.User{EmailVerified: true}
+
+	err = updateUser.Update(user.Id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"success": false,
