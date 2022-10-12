@@ -39,7 +39,7 @@ func GenerateJwt(userId string) (string, error) {
 	return generateJwt(userId, "access")
 }
 
-// Generate and sign a JWT token.
+// Generatee and sign a JWT token.
 func GenerateActivationJwt(userId string) (string, error) {
 	return generateJwt(userId, "activation")
 }
@@ -59,7 +59,7 @@ func ValidateActivationJwt(token string) (*string, error) {
 	return validateJwt(token, "activation")
 }
 
-// Validate JWT token.
+// Validate refresh JWT token.
 func ValidateRefreshJwt(token string) (*string, error) {
 	return validateJwt(token, "refresh")
 }

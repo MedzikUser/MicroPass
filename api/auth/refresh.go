@@ -10,7 +10,7 @@ import (
 )
 
 func refresh(c *gin.Context) {
-	token, err := utils.GetToken(c)
+	token, err := utils.GetRefreshToken(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"success": false,
