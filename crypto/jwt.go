@@ -34,37 +34,51 @@ func init() {
 	privateKey = private
 }
 
-// Generate and sign a JWT token.
+// GenerateJwt returns a signed access token.
 func GenerateJwt(userId string) (string, error) {
 	return generateJwt(userId, "access")
 }
 
-// Generatee and sign a JWT token.
+// GenerateActivationJwt returns a signed account activation token.
 func GenerateActivationJwt(userId string) (string, error) {
 	return generateJwt(userId, "activation")
 }
 
-// Generate and sign a JWT token.
+// GenerateRefreshJwt returns a signed refresh token.
 func GenerateRefreshJwt(userId string) (string, error) {
 	return generateJwt(userId, "refresh")
 }
 
-// Validate JWT token.
+// ValidateJwt validates the access token.
 func ValidateJwt(token string) (*string, error) {
 	return validateJwt(token, "access")
 }
 
-// Generate and sign a JWT token.
+// ValidateActivationJwt validates the account activation token.
 func ValidateActivationJwt(token string) (*string, error) {
 	return validateJwt(token, "activation")
 }
 
-// Validate refresh JWT token.
+// ValidateRefreshJwt validates the refresh token.
 func ValidateRefreshJwt(token string) (*string, error) {
 	return validateJwt(token, "refresh")
 }
 
-// --> Local function <--
+func generateJwt(userId string, tokenType string) (string, error) {
+	// create token
+	token := jwt.NewWithClaims(jwtAlgorithm, jwt.MapClaims{
+		"iss": config.Config.Jwt.Issuer,
+		"iat": time.Now().Unix(),
+		"exp": time.Now().Add(time.Hour * config.Config.Jwt.ExpiresRefreshToken).Unix(),
+		"sub": userId,
+		"typ": tokenType,
+		})
+
+	// sign token
+	tokenString, err := token.SignedString(privateKey)
+
+	return tokenString, err
+}
 
 func validateJwt(token string, tokenType string) (*string, error) {
 	claims := jwt.MapClaims{}
@@ -95,20 +109,4 @@ func validateJwt(token string, tokenType string) (*string, error) {
 	}
 
 	return &userId, nil
-}
-
-func generateJwt(userId string, tokenType string) (string, error) {
-	// create token
-	token := jwt.NewWithClaims(jwtAlgorithm, jwt.MapClaims{
-		"iss": config.Config.Jwt.Issuer,
-		"iat": time.Now().Unix(),
-		"exp": time.Now().Add(time.Hour * config.Config.Jwt.ExpiresRefreshToken).Unix(),
-		"sub": userId,
-		"typ": tokenType,
-	})
-
-	// sign token
-	tokenString, err := token.SignedString(privateKey)
-
-	return tokenString, err
 }

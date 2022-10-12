@@ -8,6 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// DB is a global variable with the database connection.
 var DB *gorm.DB
 
 // Connect to the postgres database.

@@ -21,3 +21,4 @@ jwt.pub
 # IDE configuration
 .vscode
 .idea
+.fleet

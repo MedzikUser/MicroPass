@@ -14,7 +14,7 @@ var (
 	iter     = config.Config.Crypto.Iterations
 )
 
-// Generate a pseudo-random salt.
+// GenerateSalt returns a pseudo-random salt.
 func GenerateSalt() ([]byte, error) {
 	salt := make([]byte, saleSize)
 
@@ -23,7 +23,7 @@ func GenerateSalt() ([]byte, error) {
 	return salt, err
 }
 
-// Compute PBKDF2-SHA512 hash of the given password.
+// HashPassword returns a PBKDF2-SHA512 hash of the given password.
 func HashPassword(password string, salt []byte) string {
 	// convert password string to byte slice
 	passwordBytes := []byte(password)
@@ -32,12 +32,10 @@ func HashPassword(password string, salt []byte) string {
 	dk := pbkdf2.Key(passwordBytes, salt, iter, 64, sha512.New)
 
 	// convert the hashed password to a hex string
-	hex := hex.EncodeToString(dk)
-
-	return hex
+	return hex.EncodeToString(dk)
 }
 
-// Check if the two passwords match.
+// PasswordMatch validates the two passwords.
 func PasswordMatch(hashedPassword string, currentPassword string, salt []byte) bool {
 	currentPassword = HashPassword(currentPassword, salt)
 

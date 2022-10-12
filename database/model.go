@@ -13,7 +13,7 @@ type Model struct {
 }
 
 func defaultModel() Model {
-	uuid := uuid.New()
+	id := uuid.New()
 
-	return Model{Id: uuid.String()}
+	return Model{Id: id.String()}
 }

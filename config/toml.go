@@ -8,7 +8,7 @@ import (
 	"github.com/BurntSushi/toml"
 )
 
-type config struct {
+type TomlConfig struct {
 	Crypto cryptoConfig
 	Jwt    jwtConfig
 	Api    apiConfig
@@ -47,16 +47,18 @@ type emailConfig struct {
 	Enabled bool
 }
 
-var Config config
+// Config is a global variable with unmarshaled toml config.
+var Config TomlConfig
 
-func ParseConfig(path string) (*config, error) {
+// ParseConfig unmarshaled toml configuration file.
+func ParseConfig(path string) (*TomlConfig, error) {
 	// read configuration file
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
 		return nil, fmt.Errorf("could not open file: %v", err)
 	}
 
-	var config config
+	var config TomlConfig
 
 	// unmarshal configuration file
 	err = toml.Unmarshal(data, &config)

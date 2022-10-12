@@ -6,17 +6,19 @@ type Cipher struct {
 	Model
 	UserId         *string
 	OrganizationId *string
-	Type           int
+	Type           CipherId
 	Data           string
 	Collection     *string
 }
 
 type Ciphers = map[string]Cipher
 
+type CipherId int
+
 var (
-	CipherTypeLogin      = 1
-	CipherTypeSecureNote = 2
-	CipherTypeCard       = 3
+	CipherTypeLogin      CipherId = 1
+	CipherTypeSecureNote CipherId = 2
+	CipherTypeCard       CipherId = 3
 )
 
 // Insert cipher into the database.
@@ -37,13 +39,14 @@ func (cipher Cipher) Insert() (Cipher, error) {
 	return cipher, tx.Error
 }
 
-// Get cipher from the database
+// Get cipher from the database.
 func (cipher Cipher) Get() (Cipher, error) {
 	tx := DB.Model(&cipher).First(&cipher)
 
 	return cipher, tx.Error
 }
 
+// Update cipher data in the database.
 func (cipher Cipher) Update(id string) error {
 	var findCipher Cipher
 	findCipher.Id = id
@@ -56,7 +59,7 @@ func (cipher Cipher) Update(id string) error {
 	return nil
 }
 
-// Get all user ciphers from the database.
+// GetUserCiphers returns all user ciphers from the database.
 func GetUserCiphers(userId string) (Ciphers, error) {
 	var result Ciphers
 
