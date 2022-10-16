@@ -31,7 +31,9 @@ type jwtConfig struct {
 	PrivateKey string
 	// Access token expiration time in minutes.
 	ExpiresAccessToken time.Duration
-	// Access token expiration time in minutes.
+	// Account activation token expiration time in hours.
+	ExpiresActivationToken time.Duration
+	// Refresh token expiration time in minutes.
 	ExpiresRefreshToken time.Duration
 }
 

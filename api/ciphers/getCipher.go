@@ -41,6 +41,6 @@ func getCipher(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"success": true,
-		"cipher": cipher,
+		"cipher":  cipher,
 	})
 }

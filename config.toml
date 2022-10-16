@@ -8,6 +8,7 @@ publicKey = "jwt.pub" # RSA Public Key
 privateKey = "jwt.key" # RSA Private Key
 expiresAccessToken = 10 # Access token expiration time in minutes.
 expiresRefreshToken = 60 # Refresh token expiration time in minutes.
+expiresActivationToken = 24 # Account activation token expiration time in hours.
 
 [api]
 domain = "http://localhost:8080" # The domain is used for example in email verification

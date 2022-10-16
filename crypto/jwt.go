@@ -36,17 +36,17 @@ func init() {
 
 // GenerateJwt returns a signed access token.
 func GenerateJwt(userId string) (string, error) {
-	return generateJwt(userId, "access")
+	return generateJwt(userId, "access", time.Minute * config.Config.Jwt.ExpiresAccessToken)
 }
 
 // GenerateActivationJwt returns a signed account activation token.
 func GenerateActivationJwt(userId string) (string, error) {
-	return generateJwt(userId, "activation")
+	return generateJwt(userId, "activation", time.Hour * config.Config.Jwt.ExpiresActivationToken)
 }
 
 // GenerateRefreshJwt returns a signed refresh token.
 func GenerateRefreshJwt(userId string) (string, error) {
-	return generateJwt(userId, "refresh")
+	return generateJwt(userId, "refresh", time.Minute * config.Config.Jwt.ExpiresRefreshToken)
 }
 
 // ValidateJwt validates the access token.
@@ -64,12 +64,12 @@ func ValidateRefreshJwt(token string) (*string, error) {
 	return validateJwt(token, "refresh")
 }
 
-func generateJwt(userId string, tokenType string) (string, error) {
+func generateJwt(userId string, tokenType string, expireTime time.Duration) (string, error) {
 	// create token
 	token := jwt.NewWithClaims(jwtAlgorithm, jwt.MapClaims{
 		"iss": config.Config.Jwt.Issuer,
 		"iat": time.Now().Unix(),
-		"exp": time.Now().Add(time.Hour * config.Config.Jwt.ExpiresRefreshToken).Unix(),
+		"exp": time.Now().Add(expireTime).Unix(),
 		"sub": userId,
 		"typ": tokenType,
 	})
@@ -105,7 +105,7 @@ func validateJwt(token string, tokenType string) (*string, error) {
 	// get user UUID from token
 	tokenTypeClaim, exists := claims["typ"].(string)
 	if !exists && tokenTypeClaim != tokenType {
-		return nil, fmt.Errorf("token isn't an %s token", tokenType)
+		return nil, fmt.Errorf("token isn't an '%s' token", tokenType)
 	}
 
 	return &userId, nil
