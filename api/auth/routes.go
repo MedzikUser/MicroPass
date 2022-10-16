@@ -1,8 +1,6 @@
 package auth
 
-import (
-	"github.com/gin-gonic/gin"
-)
+import "github.com/gin-gonic/gin"
 
 func Apply(r *gin.Engine) {
 	auth := r.Group("/api/auth")

@@ -13,6 +13,4 @@ var (
 	SmtpAddress  = fmt.Sprintf("%s:%s", SmtpHost, SmtpPort)
 	SmtpUser     = os.Getenv("SMTP_USER")
 	SmtpPassword = os.Getenv("SMTP_PASSWORD")
-
-	EmailActivationTemplate string
 )

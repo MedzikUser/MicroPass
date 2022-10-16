@@ -102,7 +102,7 @@ func validateJwt(token string, tokenType string) (*string, error) {
 		return nil, fmt.Errorf("token doesn't contain a subject")
 	}
 
-	// get user UUID from token
+	// check if the token type is corrected
 	tokenTypeClaim, exists := claims["typ"].(string)
 	if !exists && tokenTypeClaim != tokenType {
 		return nil, fmt.Errorf("token isn't an '%s' token", tokenType)

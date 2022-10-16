@@ -36,8 +36,10 @@ func HashPassword(password string, salt []byte) string {
 }
 
 // PasswordMatch validates the two passwords.
-func PasswordMatch(hashedPassword string, currentPassword string, salt []byte) bool {
-	currentPassword = HashPassword(currentPassword, salt)
+func PasswordMatch(hashedPassword string, unhashedPassword string, salt []byte) bool {
+	// compute hash of the unhashed password
+	hashedPasswordTwo := HashPassword(unhashedPassword, salt)
 
-	return hashedPassword == currentPassword
+	// compare the two hashes
+	return hashedPassword == hashedPasswordTwo
 }

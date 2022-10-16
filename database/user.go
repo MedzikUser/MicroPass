@@ -42,7 +42,7 @@ func (user User) Insert() (User, error) {
 	// create user in the database
 	tx := DB.Create(&user)
 	if tx.Error != nil {
-		return user, fmt.Errorf("insert user to database error: %v", tx.Error)
+		return user, fmt.Errorf("inseting user to database error: %v", tx.Error)
 	}
 
 	return user, nil
