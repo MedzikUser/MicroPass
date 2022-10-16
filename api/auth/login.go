@@ -12,8 +12,6 @@ import (
 func login(c *gin.Context) {
 	var post loginPost
 
-	post.Email = strings.ToLower(post.Email)
-
 	// parse request data
 	err := c.BindJSON(&post)
 	if err != nil {
@@ -24,6 +22,8 @@ func login(c *gin.Context) {
 
 		return
 	}
+
+	post.Email = strings.ToLower(post.Email)
 
 	var user = database.User{Email: post.Email, MasterPassword: post.MasterPassword}
 

@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/bytepass/server/api/auth"
+	"github.com/bytepass/server/api/ciphers"
 	"github.com/bytepass/server/api/user"
 	"github.com/bytepass/server/config"
 	"github.com/bytepass/server/log"
@@ -21,6 +22,7 @@ func Run() {
 
 	// apply routes
 	auth.Apply(r)
+	ciphers.Apply(r)
 	user.Apply(r)
 
 	// if enabled run https server, if not run http server

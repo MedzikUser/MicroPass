@@ -72,7 +72,7 @@ func generateJwt(userId string, tokenType string) (string, error) {
 		"exp": time.Now().Add(time.Hour * config.Config.Jwt.ExpiresRefreshToken).Unix(),
 		"sub": userId,
 		"typ": tokenType,
-		})
+	})
 
 	// sign token
 	tokenString, err := token.SignedString(privateKey)

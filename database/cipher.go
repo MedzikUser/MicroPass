@@ -6,20 +6,11 @@ type Cipher struct {
 	Model
 	UserId         *string
 	OrganizationId *string
-	Type           CipherId
 	Data           string
 	Collection     *string
 }
 
 type Ciphers = map[string]Cipher
-
-type CipherId int
-
-var (
-	CipherTypeLogin      CipherId = 1
-	CipherTypeSecureNote CipherId = 2
-	CipherTypeCard       CipherId = 3
-)
 
 // Insert cipher into the database.
 func (cipher Cipher) Insert() (Cipher, error) {

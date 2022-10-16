@@ -12,14 +12,14 @@ import (
 )
 
 var (
-	postgres_host     = os.Getenv("POSTGRES_HOST")
-	postgres_user     = os.Getenv("POSTGRES_USER")
-	postgres_password = os.Getenv("POSTGRES_PASSWORD")
-	postgres_db       = os.Getenv("POSTGRES_DB")
+	postgresHost     = os.Getenv("POSTGRES_HOST")
+	postgresUser     = os.Getenv("POSTGRES_USER")
+	postgresPassword = os.Getenv("POSTGRES_PASSWORD")
+	postgresDb       = os.Getenv("POSTGRES_DB")
 )
 
 func main() {
-	database.Connect(postgres_host, postgres_user, postgres_password, postgres_db)
+	database.Connect(postgresHost, postgresUser, postgresPassword, postgresDb)
 
 	// run API server
 	api.Run()
