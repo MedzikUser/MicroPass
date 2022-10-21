@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/bytepass/server/crypto"
+	"github.com/bytepass/libcrypto-go"
+	"github.com/bytepass/server/config"
 )
 
 // User table in database.
@@ -23,7 +24,7 @@ type User struct {
 // Insert user into the database.
 func (user User) Insert() (User, error) {
 	// generate salt
-	salt, err := crypto.GenerateSalt()
+	salt, err := libcrypto.GenerateSalt(config.Config.Crypto.Salt)
 	if err != nil {
 		return user, fmt.Errorf("generate salt error: %v", err)
 	}
@@ -31,7 +32,7 @@ func (user User) Insert() (User, error) {
 	user.MasterPasswordSalt = salt
 
 	// compute hash from master password with salt
-	user.MasterPassword = crypto.HashPassword(user.MasterPassword, user.MasterPasswordSalt)
+	user.MasterPassword = libcrypto.Pbkdf2Hash256(user.MasterPassword, user.MasterPasswordSalt, config.Config.Crypto.Iterations)
 
 	// get username from email
 	user.Name = strings.Split(user.Email, "@")[0]
@@ -62,7 +63,7 @@ func (user User) Get() (User, error) {
 	// validate password if provided
 	if providedMasterPassword != "" {
 		// match the master password with the master password saved in the database
-		ok := crypto.PasswordMatch(user.MasterPassword, providedMasterPassword, user.MasterPasswordSalt)
+		ok := libcrypto.Pbkdf2Match256(user.MasterPassword, providedMasterPassword, user.MasterPasswordSalt, config.Config.Crypto.Iterations)
 		if !ok {
 			return user, fmt.Errorf("password mismatch")
 		}
