@@ -1,0 +1,26 @@
+crypto:
+  # length of the salt used for passsword hashing
+  salt: 32
+  # number of password iterations
+  iterations: 120000
+
+jwt:
+  # The identity of the party who issued the token.
+  issuer: AwesomeVault
+  # RSA public key used to verify tokens signature.
+  public_key: jwt.pub
+  # RSA private key used to sign tokens.
+  private_key: jwt.key
+  # Access token expire time (in minutes)
+  access_token_expires: 15
+  # Refresh token expire time (in minutes)
+  refresh_token_expires: 60
+
+http:
+  address: :3000
+
+https:
+  enabled: false
+  address: :3443
+  cert: server.pem
+  key: server.key

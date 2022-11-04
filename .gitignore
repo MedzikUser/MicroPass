@@ -1,0 +1,13 @@
+# Logs
+*.log
+
+# TLS certs
+server.key
+server.pem
+
+# Json Web Token public/private keys
+jwt.key
+jwt.pub
+
+# Build output binary
+/AwesomeVault
