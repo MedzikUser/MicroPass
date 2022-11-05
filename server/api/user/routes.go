@@ -8,4 +8,5 @@ func Apply(router *gin.RouterGroup) {
 	ciphers := router.Group("/user")
 
 	ciphers.GET("/encryption_key", encryptionKey)
+	ciphers.GET("/whoami", whoami)
 }
