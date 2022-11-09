@@ -62,7 +62,7 @@ func (cipher *Cipher) Delete() error {
 // TakeOwnedCiphers returns all ciphers owned by user from the database.
 func (user *User) TakeOwnedCiphers() (Ciphers, error) {
 	var result Ciphers
-	tx := DB.Where(&Cipher{Owner: user.Id}).Take(&result)
+	tx := DB.Where(&Cipher{Owner: user.Id}).Find(&result)
 
 	return result, tx.Error
 }
