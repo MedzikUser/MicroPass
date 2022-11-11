@@ -20,6 +20,7 @@ type instanceConfig struct {
 		RefreshTokenExpires int64  `yaml:"refresh_token_expires"`
 	}
 	Http struct {
+		Enabled bool
 		Address string
 	}
 	Https struct {

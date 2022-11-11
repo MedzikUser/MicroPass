@@ -17,6 +17,7 @@ jwt:
   refresh_token_expires: 60
 
 http:
+  enabled: true
   address: :3000
 
 https:

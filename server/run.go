@@ -94,7 +94,9 @@ func Run() {
 			c.Next()
 		})
 
-		log.Fatal(router.Run(utils.Config.Http.Address))
+		if utils.Config.Http.Enabled {
+			log.Fatal(router.Run(utils.Config.Http.Address))
+		}
 	} else {
 		log.Fatal(router.Run(utils.Config.Http.Address))
 	}
