@@ -15,8 +15,6 @@ import (
 )
 
 func Run() {
-	log.Println("Starting http server on", utils.Config.Http.Address)
-
 	gin.SetMode(gin.ReleaseMode)
 
 	router := gin.Default()
@@ -96,8 +94,12 @@ func Run() {
 
 		if utils.Config.Http.Enabled {
 			log.Fatal(router.Run(utils.Config.Http.Address))
+		} else {
+			<-make(chan int)
 		}
 	} else {
+		log.Println("Starting http server on", utils.Config.Http.Address)
+
 		log.Fatal(router.Run(utils.Config.Http.Address))
 	}
 }
