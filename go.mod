@@ -1,4 +1,4 @@
-module github.com/MedzikUser/AwesomeVault
+module github.com/MedzikUser/MicroPass
 
 go 1.18
 

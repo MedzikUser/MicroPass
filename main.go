@@ -5,11 +5,11 @@ import (
 	"os"
 
 	// run autoload functions
-	_ "github.com/MedzikUser/AwesomeVault/utils"
+	_ "github.com/MedzikUser/MicroPass/utils"
 	_ "github.com/joho/godotenv/autoload"
 
-	"github.com/MedzikUser/AwesomeVault/database"
-	"github.com/MedzikUser/AwesomeVault/server"
+	"github.com/MedzikUser/MicroPass/database"
+	"github.com/MedzikUser/MicroPass/server"
 )
 
 var (

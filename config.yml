@@ -6,7 +6,7 @@ crypto:
 
 jwt:
   # The identity of the party who issued the token.
-  issuer: AwesomeVault
+  issuer: MicroPass
   # RSA public key used to verify tokens signature.
   public_key: jwt.pub
   # RSA private key used to sign tokens.

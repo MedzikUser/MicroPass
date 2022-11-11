@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/MedzikUser/AwesomeVault/server/api/auth"
-	"github.com/MedzikUser/AwesomeVault/server/errors"
+	"github.com/MedzikUser/MicroPass/server/api/auth"
+	"github.com/MedzikUser/MicroPass/server/errors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )

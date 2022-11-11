@@ -3,7 +3,7 @@ package database
 import (
 	"strings"
 
-	"github.com/MedzikUser/AwesomeVault/utils"
+	"github.com/MedzikUser/MicroPass/utils"
 	"github.com/MedzikUser/libcrypto-go"
 	"github.com/MedzikUser/libcrypto-go/hash"
 	"github.com/google/uuid"

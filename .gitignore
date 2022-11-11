@@ -10,4 +10,4 @@ jwt.key
 jwt.pub
 
 # Build output binary
-/AwesomeVault
+/MicroPass

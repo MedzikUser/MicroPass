@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/MedzikUser/AwesomeVault/server/api"
-	"github.com/MedzikUser/AwesomeVault/server/errors"
-	"github.com/MedzikUser/AwesomeVault/utils"
+	"github.com/MedzikUser/MicroPass/server/api"
+	"github.com/MedzikUser/MicroPass/server/errors"
+	"github.com/MedzikUser/MicroPass/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/unrolled/secure"
 	"go.uber.org/zap/zapcore"

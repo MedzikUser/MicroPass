@@ -3,7 +3,7 @@ package user
 import (
 	"net/http"
 
-	"github.com/MedzikUser/AwesomeVault/server/api/auth"
+	"github.com/MedzikUser/MicroPass/server/api/auth"
 	"github.com/gin-gonic/gin"
 )
 

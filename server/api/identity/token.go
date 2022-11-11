@@ -3,9 +3,9 @@ package identity
 import (
 	"net/http"
 
-	"github.com/MedzikUser/AwesomeVault/database"
-	"github.com/MedzikUser/AwesomeVault/server/errors"
-	"github.com/MedzikUser/AwesomeVault/utils"
+	"github.com/MedzikUser/MicroPass/database"
+	"github.com/MedzikUser/MicroPass/server/errors"
+	"github.com/MedzikUser/MicroPass/utils"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )

@@ -1,9 +1,9 @@
 package api
 
 import (
-	"github.com/MedzikUser/AwesomeVault/server/api/ciphers"
-	"github.com/MedzikUser/AwesomeVault/server/api/identity"
-	"github.com/MedzikUser/AwesomeVault/server/api/user"
+	"github.com/MedzikUser/MicroPass/server/api/ciphers"
+	"github.com/MedzikUser/MicroPass/server/api/identity"
+	"github.com/MedzikUser/MicroPass/server/api/user"
 	"github.com/gin-gonic/gin"
 )
 
