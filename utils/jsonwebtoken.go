@@ -50,7 +50,7 @@ func GenerateAccessToken(userId string) (string, error) {
 
 // GenerateRefreshToken returns a signed refresh token.
 func GenerateRefreshToken(userId string) (string, error) {
-	return generateToken(userId, jwtRefreshTokenType, time.Minute*time.Duration(Config.Jwt.AccessTokenExpires))
+	return generateToken(userId, jwtRefreshTokenType, time.Minute*time.Duration(Config.Jwt.RefreshTokenExpires))
 }
 
 // ValidateAccessToken validates the access token.
