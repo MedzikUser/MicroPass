@@ -9,4 +9,5 @@ func Apply(router *gin.RouterGroup) {
 	ciphers.DELETE("/delete/:id", delete)
 	ciphers.POST("/insert", insert)
 	ciphers.GET("/list", list)
+	ciphers.PATCH("/update", update)
 }

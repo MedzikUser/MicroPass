@@ -40,11 +40,12 @@ func (cipher *Cipher) Take() error {
 func (cipher *Cipher) Update() error {
 	// construct a find user
 	findCipher := Cipher{
-		Id: cipher.Id,
+		Id:    cipher.Id,
+		Owner: cipher.Owner,
 	}
 
 	// find cipher and update it
-	if err := DB.Where(findCipher).Updates(cipher).Error; err != nil {
+	if err := DB.Where(&findCipher).Updates(cipher).Error; err != nil {
 		return err
 	}
 
