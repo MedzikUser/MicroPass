@@ -80,7 +80,7 @@ func token(ctx *gin.Context) {
 		email := formData.Email
 		password := formData.Password
 
-		if email == nil || password == nil {
+		if email != nil || len(*email) == 0 || password == nil ||len(*password) == 0 {
 			errors.ErrInvalidRequest(ctx)
 			return
 		}
