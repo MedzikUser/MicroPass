@@ -2,13 +2,10 @@ package ciphers
 
 import (
 	"net/http"
-	"strconv"
-	"time"
 
 	"github.com/MedzikUser/MicroPass/server/api/auth"
 	"github.com/MedzikUser/MicroPass/server/errors"
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
 func list(ctx *gin.Context) {
@@ -17,41 +14,27 @@ func list(ctx *gin.Context) {
 		return
 	}
 
-	var cipherList []string
+	lastSync := ctx.Query("lastSync")
 
-	ciphers, err := token.User.TakeOwnedCiphers()
+	ciphers, err := token.User.TakeOwnedCiphers(lastSync)
 	if err != nil {
-		// if record not found, return empty array
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			ctx.JSON(http.StatusOK, gin.H{"ciphers": cipherList})
-			return
-		}
-
 		errors.ErrDatabase(ctx)
 		return
 	}
 
-	lastSync := ctx.Query("lastSync")
+	var updated []string
+	var deleted []string
 
 	for _, cipher := range ciphers {
-		if lastSync != "" {
-			lastSyncInt, err := strconv.ParseInt(lastSync, 10, 64)
-			if err != nil {
-				errors.ErrInvalidRequest(ctx)
-				return
-			}
-
-			lastSyncTime := time.Unix(lastSyncInt, 0)
-
-			if cipher.UpdatedAt.After(lastSyncTime) {
-				cipherList = append(cipherList, cipher.Id)
-			}
+		if cipher.DeletedAt != 0 {
+			deleted = append(deleted, cipher.Id)
 		} else {
-			cipherList = append(cipherList, cipher.Id)
+			updated = append(updated, cipher.Id)
 		}
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"ciphers": cipherList,
+		"updated": updated,
+		"deleted": deleted,
 	})
 }

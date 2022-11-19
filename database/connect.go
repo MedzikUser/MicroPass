@@ -3,6 +3,7 @@ package database
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -37,6 +38,10 @@ func Connect(host string, user string, password string, dbName string) (*gorm.DB
 	log.Println("Connected to the database!")
 
 	// * End auto migrations
+
+	if os.Getenv("MICROPASS_DEBUG") == "true" {
+		db = db.Debug()
+	}
 
 	// move a local database variable to a global variable
 	DB = db

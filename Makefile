@@ -12,7 +12,7 @@ release:
 	GOOS=freebsd GOARCH=arm64 go build -o $(BINARY_NAME)-freebsd-arm64 main.go
 
 run:
-	go run main.go
+	env MICROPASS_DEBUG=true go run main.go
 
 clean:
 	go clean

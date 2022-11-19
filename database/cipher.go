@@ -1,6 +1,9 @@
 package database
 
 import (
+	"strconv"
+	"time"
+
 	"github.com/google/uuid"
 )
 
@@ -52,6 +55,7 @@ func (cipher *Cipher) Update() error {
 	return nil
 }
 
+// Delete removes cipher.
 func (cipher *Cipher) Delete() error {
 	if err := DB.Delete(cipher).Error; err != nil {
 		return err
@@ -61,9 +65,23 @@ func (cipher *Cipher) Delete() error {
 }
 
 // TakeOwnedCiphers returns all ciphers owned by user from the database.
-func (user *User) TakeOwnedCiphers() (Ciphers, error) {
+func (user *User) TakeOwnedCiphers(lastSync string) (Ciphers, error) {
 	var result Ciphers
-	tx := DB.Where(&Cipher{Owner: user.Id}).Find(&result)
 
-	return result, tx.Error
+	whereCondition := Cipher{
+		Owner: user.Id,
+	}
+
+	if lastSync != "" {
+		unix, err := strconv.ParseInt(lastSync, 10, 64)
+		if err != nil {
+			return result, err
+		}
+
+		tx := DB.Unscoped().Scopes(UpdatedOrDeletedAfter(time.Unix(unix, 0))).Select("id", "updated_at", "deleted_at").Where(&whereCondition).Find(&result)
+		return result, tx.Error
+	} else {
+		tx := DB.Select("id").Where(&whereCondition).Find(&result)
+		return result, tx.Error
+	}
 }
