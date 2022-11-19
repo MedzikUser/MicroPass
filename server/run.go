@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/MedzikUser/MicroPass/server/api"
@@ -15,7 +16,10 @@ import (
 )
 
 func Run() {
-	gin.SetMode(gin.ReleaseMode)
+	// if the env variable `MICROPASS_DEBUG` is not set to true, use gin production mode
+	if os.Getenv("MICROPASS_DEBUG") != "true" {
+		gin.SetMode(gin.ReleaseMode)
+	}
 
 	router := gin.Default()
 

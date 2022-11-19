@@ -21,6 +21,11 @@ func Connect(host string, user string, password string, dbName string) (*gorm.DB
 		return nil, err
 	}
 
+	// if the env variable `MICROPASS_DEBUG` is set to true, enable sql debug logger
+	if os.Getenv("MICROPASS_DEBUG") == "true" {
+		db = db.Debug()
+	}
+
 	// * Run auto migrations
 
 	// user model
@@ -38,10 +43,6 @@ func Connect(host string, user string, password string, dbName string) (*gorm.DB
 	log.Println("Connected to the database!")
 
 	// * End auto migrations
-
-	if os.Getenv("MICROPASS_DEBUG") == "true" {
-		db = db.Debug()
-	}
 
 	// move a local database variable to a global variable
 	DB = db
