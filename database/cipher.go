@@ -1,6 +1,7 @@
 package database
 
 import (
+	"errors"
 	"strconv"
 	"time"
 
@@ -41,6 +42,10 @@ func (cipher *Cipher) Take() error {
 
 // Update finds cipher and updates it.
 func (cipher *Cipher) Update() error {
+	if cipher.Id == "" {
+		return errors.New("trying to update cipher without id (all ciphers with the same data)")
+	}
+
 	// construct a find user
 	findCipher := Cipher{
 		Id:    cipher.Id,
@@ -72,7 +77,7 @@ func (user *User) TakeOwnedCiphers(lastSync string) (Ciphers, error) {
 		Owner: user.Id,
 	}
 
-	if lastSync != "" {
+	if lastSync != "" && lastSync != "0" {
 		unix, err := strconv.ParseInt(lastSync, 10, 64)
 		if err != nil {
 			return result, err

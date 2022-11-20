@@ -18,7 +18,7 @@ func update(ctx *gin.Context) {
 	var formData cipherUpdateData
 	ctx.Bind(&formData)
 
-	if len(formData.Data) == 0 {
+	if len(formData.Id) == 0 || len(formData.Data) == 0 {
 		errors.ErrInvalidRequest(ctx)
 		return
 	}
