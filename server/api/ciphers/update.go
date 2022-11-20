@@ -26,6 +26,7 @@ func update(ctx *gin.Context) {
 	// create cipher model
 	cipher := database.Cipher{
 		Owner: token.User.Id,
+		Id:    formData.Id,
 		Data:  formData.Data,
 	}
 
