@@ -13,6 +13,7 @@ type Model struct {
 	DeletedAt soft_delete.DeletedAt
 }
 
+// UpdatedOrDeletedAfter is a scope that filters records that were updated or deleted after the given time.
 func UpdatedOrDeletedAfter(t time.Time) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
 		return db.Where("updated_at >= ? OR deleted_at >= ?", t, t.Unix())

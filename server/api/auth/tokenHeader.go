@@ -16,18 +16,21 @@ type Token struct {
 }
 
 func GetAccessToken(ctx *gin.Context) *Token {
+	// get token from header
 	token, err := getToken(ctx)
 	if err != nil {
 		errors.ErrInvalidAuthorizationHeader(ctx)
 		return nil
 	}
 
+	// validate the token
 	userId, err := utils.ValidateAccessToken(*token)
 	if err != nil {
 		errors.ErrInvalidToken(ctx)
 		return nil
 	}
 
+	// find user in the database
 	user := database.User{
 		Id: *userId,
 	}
@@ -37,6 +40,7 @@ func GetAccessToken(ctx *gin.Context) *Token {
 		return nil
 	}
 
+	// return token and user
 	return &Token{
 		Token: *token,
 		User:  user,
@@ -44,8 +48,6 @@ func GetAccessToken(ctx *gin.Context) *Token {
 }
 
 func getToken(ctx *gin.Context) (*string, error) {
-	var token string
-
 	// get `Authorization` header
 	authHeader := ctx.GetHeader("Authorization")
 
@@ -56,7 +58,7 @@ func getToken(ctx *gin.Context) (*string, error) {
 	}
 
 	// get token
-	token = strings.TrimSpace(parts[1])
+	token := strings.TrimSpace(parts[1])
 	if len(token) == 0 {
 		return nil, fmt.Errorf("missing token")
 	}

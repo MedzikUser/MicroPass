@@ -18,21 +18,25 @@ var (
 )
 
 func init() {
+	// read public key from file
 	publicKeyContent, err := os.ReadFile(Config.Jwt.PublicKey)
 	if err != nil {
 		log.Fatal("Failed to open RSA public key file: ", err)
 	}
 
+	// read private key from file
 	privateKeyContent, err := os.ReadFile(Config.Jwt.PrivateKey)
 	if err != nil {
-		log.Fatal("Failed to open RSA public key file: ", err)
+		log.Fatal("Failed to open RSA private key file: ", err)
 	}
 
+	// parse public key
 	publicKey, err := jwt.ParseRSAPublicKeyFromPEM(publicKeyContent)
 	if err != nil {
 		log.Fatal("Failed to parse RSA public key: ", err)
 	}
 
+	// parse private key
 	privateKey, err := jwt.ParseRSAPrivateKeyFromPEM(privateKeyContent)
 	if err != nil {
 		log.Fatal("Failed to parse RSA private key: ", err)
@@ -104,7 +108,7 @@ func validateToken(token string, tokenType string) (*string, error) {
 		return nil, ErrInvalidTokenSubject
 	}
 
-	// check if the token type is corrected
+	// check if the token type is correct
 	tokenTypeClaim, exists := claims["typ"].(string)
 	if !exists && tokenTypeClaim != tokenType {
 		return nil, ErrInvalidTokenType

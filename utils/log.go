@@ -21,10 +21,9 @@ func init() {
 
 	config.OutputPaths = []string{"server.log"}
 
-	logger, err := config.Build()
+	var err error
+	Log, err = config.Build()
 	if err != nil {
-		log.Fatalf("can't initialize zap logger: %v", err)
+		log.Fatalf("Can't initialize zap logger: %v", err)
 	}
-
-	Log = logger
 }

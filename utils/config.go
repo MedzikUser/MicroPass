@@ -7,7 +7,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-type instanceConfig struct {
+type configStruct struct {
 	Crypto struct {
 		Salt       int
 		Iterations int
@@ -31,19 +31,19 @@ type instanceConfig struct {
 	}
 }
 
-func (c *instanceConfig) Parse(data []byte) error {
+func (c *configStruct) Parse(data []byte) error {
 	return yaml.Unmarshal(data, c)
 }
 
-var Config instanceConfig
+var Config configStruct
 
 func init() {
 	data, err := os.ReadFile("config.yml")
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Failed to read config.yml file: ", err)
 	}
 
 	if err := Config.Parse(data); err != nil {
-		log.Fatal(err)
+		log.Fatal("Failed to parse config file: ", err)
 	}
 }

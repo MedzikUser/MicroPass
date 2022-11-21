@@ -41,6 +41,6 @@ func update(ctx *gin.Context) {
 }
 
 type cipherUpdateData struct {
-	Id   string `form:"id" json:"id" binding:"required"`
+	Id   string `form:"id"   json:"id"   binding:"required"`
 	Data string `form:"data" json:"data" binding:"required"`
 }

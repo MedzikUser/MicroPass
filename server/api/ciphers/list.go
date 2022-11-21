@@ -2,6 +2,7 @@ package ciphers
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/MedzikUser/MicroPass/server/api/auth"
 	"github.com/MedzikUser/MicroPass/server/errors"
@@ -14,9 +15,18 @@ func list(ctx *gin.Context) {
 		return
 	}
 
-	lastSync := ctx.Query("lastSync")
+	lastSyncQuery := ctx.Query("lastSync")
+	var lastSync int64
+	if lastSyncQuery == "" {
+		var err error
+		lastSync, err = strconv.ParseInt(lastSyncQuery, 10, 64)
+		if err != nil {
+			errors.ErrInvalidRequest(ctx)
+			return
+		}
+	}
 
-	ciphers, err := token.User.TakeOwnedCiphers(lastSync)
+	ciphers, err := token.User.TakeOwnedCiphers(&lastSync)
 	if err != nil {
 		errors.ErrDatabase(ctx)
 		return
