@@ -1,7 +1,6 @@
 package database
 
 import (
-	"errors"
 	"time"
 
 	"github.com/google/uuid"
@@ -9,10 +8,21 @@ import (
 
 type Cipher struct {
 	Model
-	Id    string `gorm:"size:40,primaryKey"`
-	Owner string
-	Data  string
+	Id          string `gorm:"size:40,primaryKey"`
+	Owner       string
+	Favorite    bool
+	Directory   *string
+	Data        string
+	Attachments []string
 }
+
+// TODO: clear cipher data from database
+// func (cipher *Cipher) BeforeDelete(tx *gorm.DB) (err error) {
+// 	// delete data from the cipher
+// 	cipher.Data = ""
+
+// 	return nil
+// }
 
 type Ciphers = []Cipher
 
@@ -42,7 +52,7 @@ func (cipher *Cipher) Take() error {
 // Update finds cipher and updates it.
 func (cipher *Cipher) Update() error {
 	if cipher.Id == "" {
-		return errors.New("trying to update cipher without id (all ciphers with the same data)")
+		return ErrUpdateCipherEmptyID
 	}
 
 	// construct a find user

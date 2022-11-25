@@ -25,8 +25,9 @@ func insert(ctx *gin.Context) {
 
 	// create cipher model
 	cipher := database.Cipher{
-		Owner: token.User.Id,
-		Data:  formData.Data,
+		Owner:     token.User.Id,
+		Directory: formData.Directory,
+		Data:      formData.Data,
 	}
 
 	// insert cipher to the database
@@ -42,5 +43,6 @@ func insert(ctx *gin.Context) {
 }
 
 type cipherInsertData struct {
-	Data string `form:"data" json:"data" binding:"required"`
+	Directory *string `form:"dir"  json:"dir"`
+	Data      string  `form:"data" json:"data" binding:"required"`
 }

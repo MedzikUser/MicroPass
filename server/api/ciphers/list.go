@@ -17,7 +17,7 @@ func list(ctx *gin.Context) {
 
 	lastSyncQuery := ctx.Query("lastSync")
 	var lastSync int64
-	if lastSyncQuery == "" {
+	if lastSyncQuery != "" {
 		var err error
 		lastSync, err = strconv.ParseInt(lastSyncQuery, 10, 64)
 		if err != nil {

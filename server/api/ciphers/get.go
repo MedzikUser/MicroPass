@@ -28,9 +28,10 @@ func get(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"id":      cipher.Id,
-		"data":    cipher.Data,
-		"created": cipher.Model.CreatedAt.Unix(),
-		"updated": cipher.Model.UpdatedAt.Unix(),
+		"id":       cipher.Id,
+		"favorite": cipher.Favorite,
+		"data":     cipher.Data,
+		"created":  cipher.Model.CreatedAt.Unix(),
+		"updated":  cipher.Model.UpdatedAt.Unix(),
 	})
 }
