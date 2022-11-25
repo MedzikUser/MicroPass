@@ -13,7 +13,7 @@ type Cipher struct {
 	Favorite    bool
 	Directory   *string
 	Data        string
-	Attachments []string
+	Attachments []string `gorm:"type:text[]"`
 }
 
 // TODO: clear cipher data from database
