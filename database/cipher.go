@@ -16,14 +16,6 @@ type Cipher struct {
 	Attachments []string `gorm:"type:text[]"`
 }
 
-// TODO: clear cipher data from database
-// func (cipher *Cipher) BeforeDelete(tx *gorm.DB) (err error) {
-// 	// delete data from the cipher
-// 	cipher.Data = ""
-
-// 	return nil
-// }
-
 type Ciphers = []Cipher
 
 // Insert creates an new cipher in the database.
